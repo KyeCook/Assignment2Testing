@@ -5,54 +5,62 @@ BoxLayout:
         BoxLayout:
             orientation: 'vertical'
             size_hint_x: 0.3
+
             Button:
-                id: converter_btn
-                text: 'Convert Miles to Kilometers'
-                on_press: app.handle_convert()
+                id: list_items_btn
+                text: 'List Items'
+                on_press: app.handle_listItems()
             Button:
-                id: converter_btn
-                text: 'Convert Miles to Kilometers'
-                on_press: app.handle_convert()
+                id: hire_items_btn
+                text: 'Hire Items'
+                on_press: app.handle_hireItem()
             Button:
-                id: converter_btn
-                text: 'Convert Miles to Kilometers'
-                on_press: app.handle_convert()
+                id: return_items_btn
+                text: 'Return Items'
+                on_press: app.handle_returnItem()
             Button:
-                id: converter_btn
-                text: 'Convert Miles to Kilometers'
-                on_press: app.handle_convert()
+                id: confirm_btn
+                text: 'Confirm'
+                on_press: app.handle_confirm()
             Button:
-                id: converter_btn
-                text: 'Convert Miles to Kilometers'
-                on_press: app.handle_convert()
+                id: add_item_btn
+                text: 'Add New Item'
+                on_press: app.handle_addItem()
                 
         BoxLayout:
             orientation: 'horizontal'
+
+            BoxLayout:
+                orientation: 'vertical'
+
+                Label:
+                    text: "Test Text"
+                    canvas.before:
+                        Color:
+                            rgba: 0,1,1,1
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                Label:
+                    text: "Test Text"
+                Label:
+                    text: "Test Text"
+                    canvas.before:
+                        Color:
+                            rgba: 0,1,1,1
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
             BoxLayout:
                 orientation: 'vertical'
                 Label:
                     text: "Test Text"
+                Label:
+                    text: "Test Text"
+                Label:
+                    text: "Test Text"
 
-                    ## Trying to change the background colour of label ##
-                    #canvas.before:
-                    #    color:
-                    #        rgba: 1,1,0,1
-                    #    rectangle:
-                    #        pos: self.pos
-                    #        size: self.size
-
-                Label:
-                    text: "Test Text"
-                Label:
-                    text: "Test Text"
-            BoxLayout:
-                orientation: 'vertical'
-                Label:
-                    text: "Test Text"
-                Label:
-                    text: "Test Text"
-                Label:
-                    text: "Test Text"
             BoxLayout:
                 orientation: 'vertical'
                 Label:

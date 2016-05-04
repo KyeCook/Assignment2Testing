@@ -1,0 +1,82 @@
+BoxLayout:
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    orientation: 'vertical'
+    Label:
+        text: 'Current Trip Location:'
+        color: (0, 0, 0, 1)
+        # aligns text to middle
+        font_size: 26
+        halign: 'center'
+        valign: 'middle'
+        id: trip_location_label
+    BoxLayout:
+        Spinner:
+            bold: True
+            text:  app.current_country
+            values: app.country_list
+            on_text: app.change_country(self.text)
+            size_hint: 0.40, 1
+            id: country_selection
+        TextInput:
+            padding_y: (self.height - self.line_height) / 2
+            write_tab: False
+            multiline: False
+            size_hint: 0.60, 1
+            id: trip_country_input
+            on_text_validate: app.handle_press_conversion()
+            value: app.amount_one
+    BoxLayout:
+        Label:
+            canvas.before:
+                Color:
+                    rgba: 0.9, 0.9, 0.9, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            color: (0, 0, 0, 1)
+            font_size: 15
+            halign: 'center'
+            valign: 'middle'
+            size_hint: 0.40, 1
+            id: home_country_label
+        TextInput:
+            padding_y: (self.height - self.line_height) / 2
+            write_tab: False
+            multiline: False
+            size_hint: 0.60, 1
+            id: home_country_input
+            on_text_validate: app.handle_press_reverse_conversion()
+            value: app.amount_two
+    Label:
+        color: (0, 0, 0, 1)
+        text: ''
+        font_size: 20
+        halign: 'center'
+        valign: 'middle'
+        id: current_date_label
+    BoxLayout:
+        Label:
+            canvas.before:
+                Color:
+                    rgba: 0.9, 0.9, 0.9, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            color: (0, 0, 0, 1)
+            #text: 'Status message'
+            text_size: self.size
+            halign: 'center'
+            valign: 'middle'
+            size_hint: 0.60, 1
+            id: status_label
+        Button:
+            bold: True
+            text: 'Update Currency'
+            id: update_button
+            size_hint: 0.40, 1
+            on_press: app.handle_update()

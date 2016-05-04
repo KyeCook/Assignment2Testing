@@ -1,3 +1,9 @@
+"""
+Assignment 2 Testing work
+
+Need to find out :
+    > How to centre align widgets
+"""
 from kivy.app import App
 from kivy.lang import Builder
 
@@ -5,6 +11,8 @@ from kivy.lang import Builder
 class Converter(App):
     def build(self):
         self.title = "Convert Miles to Kilometers"
+        # self.root = Builder.load_file('gui.kv')
+        # self.root = Builder.load_file('GUI_addItems.kv')
         self.root = Builder.load_file('kivy_testing.kv')
         return self.root
 
