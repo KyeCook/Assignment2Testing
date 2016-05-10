@@ -10,10 +10,9 @@ from kivy.lang import Builder
 
 class Converter(App):
     def build(self):
-        self.title = "Convert Miles to Kilometers"
-        # self.root = Builder.load_file('gui.kv')
-        # self.root = Builder.load_file('GUI_addItems.kv')
-        self.root = Builder.load_file('kivy_testing.kv')
+        self.title = "Equipment Hire"
+        self.root = Builder.load_file('gui_addItems.kv')
+        # self.root = Builder.load_file('gui_mainMenu.kv')
         return self.root
 
     def handle_convert(self):
