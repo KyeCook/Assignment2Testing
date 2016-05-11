@@ -11,14 +11,14 @@ from kivy.lang import Builder
 class Converter(App):
     def build(self):
         self.title = "Equipment Hire"
-        # self.root = Builder.load_file('gui_addItems.kv')
-        self.root = Builder.load_file('gui_mainMenu.kv')
+        self.root = Builder.load_file('gui_addItems.kv')
+        # self.root = Builder.load_file('gui_mainMenu.kv')
         return self.root
 
     def handle_add_item(self):
         self.root = Builder.load_file('gui_addItems.kv')
-
-        ## ?????????????????????????????
+        # return self.root
+        # kivy demo 'popup'
 
         # miles = float(self.root.ids.input_miles.text)
         # kilometers = miles/0.62137
