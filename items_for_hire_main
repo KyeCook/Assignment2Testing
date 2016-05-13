@@ -1,0 +1,11 @@
+from items_GUI import ItemsGUI
+from Assign1 import load_items
+
+
+def main():
+    # __build_class__(ItemsGUI)
+    loaded_items = load_items()
+
+    print(loaded_items)
+
+main()

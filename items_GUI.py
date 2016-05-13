@@ -6,7 +6,7 @@ from kivy.app import App
 from kivy.lang import Builder
 
 
-class Converter(App):
+class ItemsGUI(App):
     def build(self):
         """
         This actually builds and constructs the GUI
@@ -41,10 +41,5 @@ class Converter(App):
         self.root.ids.popup.dismiss()
         self.clear_fields()
 
-    def handle_take(self):
-        mile_minus1 = float(self.root.ids.input_miles.text)
-        mile_minus1 -= 1
-        self.root.ids.input_miles.text = str(mile_minus1)
 
-
-Converter().run()
+ItemsGUI().run()
