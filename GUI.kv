@@ -1,5 +1,59 @@
 BoxLayout:
     orientation: 'vertical'
+    id: mainBox
+    Popup:
+        id: popup
+        # Makes popup not go full window
+        size_hint: (.7, .7)
+        title: "Add Item"
+        on_parent:
+            # Make popup disappear immediately
+            if self.parent == mainBox: self.parent.remove_widget(self)
+        BoxLayout:
+            orientation: 'vertical'
+            Label:
+                size_hint_y: 0.005
+                #Below code is how to change widget background colour
+                canvas.before:
+                    Color:
+                        rgba: 0,1,1,1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+            Label:
+                size_hint_y: 0.2
+                text: 'Item Name:'
+            TextInput:
+                id: added_name
+                text: ""
+                size_hint: 0.98, 0.2
+            Label:
+                size_hint_y: 0.2
+                text: 'Description:'
+            TextInput:
+                id: added_description
+                text: ""
+                size_hint: 0.98, 0.2
+            Label:
+                size_hint_y: 0.2
+                text: 'Price Per Day:'
+            TextInput:
+                id: added_price
+                text: ""
+                size_hint: 0.98, 0.2
+            Button:
+                id: update_save_item
+                size_hint: 0.98, 0.2
+                text: 'Save Item'
+                on_press: app.handle_save_item()
+            Button:
+                id: update_cancel
+                size_hint: 0.98, 0.2
+                text: 'Cancel'
+                on_press: app.handle_cancel()
+            Label:
+                size_hint_y: 0.3
+                text: 'Enter details for new item'
     BoxLayout:
         orientation: 'horizontal'
         BoxLayout:

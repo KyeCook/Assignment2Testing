@@ -1,8 +1,6 @@
 """
-Assignment 2 Testing work
+Assignment 2
 
-Need to find out :
-    > How to centre align widgets
 """
 from kivy.app import App
 from kivy.lang import Builder
@@ -10,28 +8,38 @@ from kivy.lang import Builder
 
 class Converter(App):
     def build(self):
+        """
+        This actually builds and constructs the GUI
+        :return: self.root
+        """
         self.title = "Equipment Hire"
-        self.root = Builder.load_file('gui_addItems.kv')
-        # self.root = Builder.load_file('gui_mainMenu.kv')
+        self.root = Builder.load_file('GUI.kv')
         return self.root
 
     def handle_add_item(self):
-        self.root = Builder.load_file('gui_addItems.kv')
-        # return self.root
-        # kivy demo 'popup'
+        """
+        This opens the popup for add items
+        :return:
+        """
+        self.root.ids.popup.open()
 
-        # miles = float(self.root.ids.input_miles.text)
-        # kilometers = miles/0.62137
-        # if kilometers > 1:
-        #     is_plural = "s"
-        # else:
-        #     is_plural = ""
-        # self.root.ids.output_label.text = "{:.2f}km{}".format(kilometers, is_plural)
+    def clear_fields(self):
+        """
+        This clears inputted data from add group if cancel button is clicked.
+        :return:
+        """
+        self.root.ids.added_name.text = ""
+        self.root.ids.added_description.text = ""
+        self.root.ids.added_price.text = ""
 
-    def handle_add(self):
-        mile_plus1 = float(self.root.ids.input_miles.text)
-        mile_plus1 += 1
-        self.root.ids.input_miles.text = str(mile_plus1)
+    def handle_cancel(self):
+        """
+        This handles the actions of the cancel button within the add group
+        :return: none
+        """
+        # closes the popup window
+        self.root.ids.popup.dismiss()
+        self.clear_fields()
 
     def handle_take(self):
         mile_minus1 = float(self.root.ids.input_miles.text)
