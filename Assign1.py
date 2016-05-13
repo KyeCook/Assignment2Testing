@@ -271,4 +271,4 @@ def update_csv(item_names, item_descriptions, item_costs, item_availability, ite
     for line in item_list_update:
         f.write(','.join(line) + '\n')
     f.close()
-main()
+# main()
