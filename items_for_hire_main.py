@@ -6,8 +6,8 @@ from item import Item
 def main():
     # __build_class__(ItemsGUI)
     # loaded_items = load_items()
-    items = Item("test")
-
+    items = Item()
+    print(items)
     # Create a new py file 'item.py' to load in load_items from previous assignment. Then just import that class
 
 main()
