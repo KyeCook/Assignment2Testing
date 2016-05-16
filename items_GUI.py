@@ -4,9 +4,16 @@ Assignment 2
 """
 from kivy.app import App
 from kivy.lang import Builder
+from kivy.uix.button import Button
+from kivy.properties import StringProperty
+from item import Item
 
 
 class ItemsGUI(App):
+    def __init__(self, **kwargs):
+        super(ItemsGUI, self).__init__(**kwargs)
+        self.items = {Item}
+
     def build(self):
         """
         This actually builds and constructs the GUI
@@ -14,7 +21,19 @@ class ItemsGUI(App):
         """
         self.title = "Equipment Hire"
         self.root = Builder.load_file('GUI.kv')
+        self.create_item_buttons()
         return self.root
+
+    def create_item_buttons(self):
+        for name in self.items:
+            temp_button = Button(text=name)
+            temp_button.bind(on_release=self.press_entry)
+            self.root.ids.entriesBox.add_widget(temp_button)
+
+    def press_entry(self, instance):
+        name = instance.text
+        self.status_text = Item
+
 
     def handle_add_item(self):
         """
