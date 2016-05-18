@@ -71,37 +71,22 @@ def load_items():
 
     f = open(FILE_NAME)
     csv_f = csv.reader(f)
-
-    item_names = []
-    item_descriptions = []
-    item_costs = []
-    item_availability = []
-    item_id = []
     items = []
 
     item_id_count = -1
 
 # Reads each row in items.csv and appends data to appropriate list.
     for row in csv_f:
-        item_id_count += 1
+        new_item = []
 
-        item_id.append(item_id_count)
-        item_names.append(row[0])
-        item_descriptions.append(row[1])
-        item_costs.append(float(row[2]))
+        new_item.append(row[0])
+        new_item.append(row[1])
+        new_item.append(float(row[2]))
+        new_item.append(row[3])
 
-        if row[3] == "out":
-            item_availability.append("*")
-        else:
-            item_availability.append("")
+        items.append(new_item)
 
-# Formats 2 variables into one to achieve same formatting as examples
-        string_for_formatting = "{} ({})".format(item_names[item_id_count], item_descriptions[item_id_count],)
-# Actually applies formatting to items contents
-        items.append("{} - {:<40s} = $ {:>7.2f}{}".format(item_id[item_id_count], string_for_formatting,
-                                                          item_costs[item_id_count], item_availability[item_id_count]))
-
-    return item_id, item_names, item_descriptions, item_costs, item_availability, items, item_id_count
+    return items
 
 
 def hire_items(item_id, item_names, item_availability, item_costs, items):
@@ -252,23 +237,12 @@ def add_items(item_id, item_names, item_descriptions, item_costs, item_availabil
     return items, item_names, item_costs, item_id_count, item_descriptions, item_availability
 
 
-def update_csv(item_names, item_descriptions, item_costs, item_availability, items):
+def update_csv(items):
     # Needs to re-open file in new write format
     f = open(FILE_NAME, 'w')
     count = -1
-    item_list_update = []
-    item_availability_old = []
     # Merges items into original list format style to be saved to the CSV file
-    for line in items:
-        count += 1
-        if item_availability[count] == "*":
-            item_availability_old.append("out")
-        else:
-            item_availability_old.append("in")
-        item_list_update.append([item_names[count], item_descriptions[count], str(item_costs[count]),
-                                item_availability_old[count]])
-    # Writes to CSV file for each line
-    for line in item_list_update:
-        f.write(','.join(line) + '\n')
+    for item in items:
+        f.write(','.join(str(part) for part in items) + '\n')
     f.close()
 # main()

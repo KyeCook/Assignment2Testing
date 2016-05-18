@@ -83,46 +83,10 @@ BoxLayout:
                 
         BoxLayout:
             orientation: 'horizontal'
+            #BoxLayout:
+            orientation: 'vertical'
+            id: itemsBox
 
-            BoxLayout:
-                orientation: 'vertical'
-
-                Label:
-                    text: "Test Text"
-                    canvas.before:
-                        Color:
-                            rgba: 0,1,1,1
-                        Rectangle:
-                            pos: self.pos
-                            size: self.size
-                Label:
-                    text: "Test Text"
-                Label:
-                    text: "Test Text"
-                    canvas.before:
-                        Color:
-                            rgba: 0,1,1,1
-                        Rectangle:
-                            pos: self.pos
-                            size: self.size
-
-            BoxLayout:
-                orientation: 'vertical'
-                Label:
-                    text: "Test Text"
-                Label:
-                    text: "Test Text"
-                Label:
-                    text: "Test Text"
-
-            BoxLayout:
-                orientation: 'vertical'
-                Label:
-                    text: "Test Text"
-                Label:
-                    text: "Test Text"
-                Label:
-                    text: "Test Text"
     Label:
         size_hint_y: 0.1
         id: output_label
