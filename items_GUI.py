@@ -13,6 +13,7 @@ from itemlist import ItemList
 class ItemsGUI(App):
     def __init__(self, **kwargs):
         super(ItemsGUI, self).__init__(**kwargs)
+        self.testing = Item()
         self.items = ItemList()
 
     def build(self):

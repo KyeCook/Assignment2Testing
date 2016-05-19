@@ -4,7 +4,7 @@ from Assign1 import load_items
 class ItemList:
     def __init__(self):
         self.items = load_items()
-        print(self.items)
+        # print(self.items)
 
     def __str__(self):
         # Formats 2 variables into one to achieve same formatting as examples
