@@ -3,8 +3,9 @@ Assignment 2
 Kye Cook
 started 04/05/2016
 
-GitHub URL :
+GitHub URL : https://github.com/KyeCook/Assignment2_KivyAndClasses
 
+Program uses past assignment and converts into usable GUI using classes and kivy
 """
 from kivy.app import App
 from kivy.lang import Builder
