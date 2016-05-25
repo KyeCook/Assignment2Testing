@@ -109,23 +109,23 @@ class ItemsGUI(App):
         """
         self.root.ids.popup.open()
 
-    # def handle_save_item(self, added_name, added_number):
-    #     """
-    #     Handler for pressing the save button in the add entry popup - save a new entry to memory
-    #     :param added_name: name text input (from popup GUI)
-    #     :param added_number: phone number text input (string)
-    #     :return: None
-    #     """
-    #     self.phonebook[added_name] = added_number
-    #     # change the number of columns based on the number of entries (no more than 5 rows of entries)
-    #     self.root.ids.entriesBox.cols = len(self.phonebook) // 5 + 1
-    #     # add button for new entry (same as in create_entry_buttons())
-    #     temp_button = Button(text=added_name)
-    #     temp_button.bind(on_release=self.press_entry)
-    #     self.root.ids.entriesBox.add_widget(temp_button)
-    #     close popup
-    #     self.root.ids.popup.dismiss()
-    #     self.clear_fields()
+    def handle_save_item(self, added_name, added_description, added_price):
+        """
+        Handler for pressing the save button in the add entry popup - save a new entry to memory
+        :param added_name: name text input (from popup GUI)
+        :param added_number: phone number text input (string)
+        :return: None
+        """
+        self.items.add_item_from_values(added_name, added_description, added_price)
+        # change the number of columns based on the number of entries (no more than 5 rows of entries)
+        self.root.ids.entriesBox.cols = len(self.items.items) // 5 + 1
+        # add button for new entry (same as in create_entry_buttons())
+        temp_button = Button(text=added_name)
+        temp_button.bind(on_release=self.press_entry)
+        self.root.ids.entriesBox.add_widget(temp_button)
+        # close popup
+        self.root.ids.popup.dismiss()
+        self.clear_fields()
 
     def clear_fields(self):
         """

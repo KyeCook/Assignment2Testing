@@ -11,6 +11,10 @@ class ItemList:
             item = Item(item_list[0], item_list[1], float(item_list[2]), item_list[3])
             self.items.append(item)
 
+    def add_item_from_values(self, added_name, added_description, added_price):
+        item = Item(added_name, added_description, added_price, "in")
+        self.items.append(item)
+
     def get_item(self, name):
         for item in self.items:
             if item.name == name:
