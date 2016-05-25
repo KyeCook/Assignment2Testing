@@ -67,21 +67,15 @@ class ItemsGUI(App):
         """
         item_name = instance.text
 
-        selected_item = None
-
-        # TODO change to method of itemlist getitem(name)
-        for item in self.items.items:
-            if item.name == item_name:
-                selected_item = item
-
+        item = self.items.get_item(item_name)
         if self.mode == LIST_MODE:
-            self.status_text = "{} ({}) = ${:.2f} is {}".format(selected_item.name, selected_item.description,
-                                                                selected_item.cost, selected_item.in_or_out)
+            self.status_text = "{} ({}) = ${:.2f} is {}".format(item.name, item.description, item.cost, item.in_or_out)
 
         if self.mode == HIRE_MODE:
-            if selected_item.in_or_out == "in":
-                if selected_item not in self.selected_items:
-                    self.selected_items.append(selected_item)
+            if item.in_or_out == "in":
+                if item not in self.selected_items:
+                    self.root.ids.itemsBox.state = "down"
+                    self.selected_items.append(item)
 
                     names = []
                     total = 0
@@ -89,13 +83,10 @@ class ItemsGUI(App):
                         total += item.cost
                         names.append(item.name)
 
-                    # self.root.ids.list_items_btn.state = "down"
-                    # print(total)
                     name_str = ",".join(names)
                     self.status_text = "Hiring : {} for ${:.2f}".format(name_str, total)
                 else:
-                    self.selected_items.remove(selected_item)
-            # print(self.mode, self.status_text)
+                    self.selected_items.remove(item)
 
     def handle_list_items(self):
         self.mode = LIST_MODE

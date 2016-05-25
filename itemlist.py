@@ -10,3 +10,8 @@ class ItemList:
             # create Item object, put in self.items
             item = Item(item_list[0], item_list[1], float(item_list[2]), item_list[3])
             self.items.append(item)
+
+    def get_item(self, name):
+        for item in self.items:
+            if item.name == name:
+                return item
