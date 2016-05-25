@@ -12,7 +12,6 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.button import Button
 from kivy.properties import StringProperty
-from item import Item
 from itemlist import ItemList
 
 
@@ -28,7 +27,6 @@ class ItemsGUI(App):
         :return:
         """
         super(ItemsGUI, self).__init__(**kwargs)
-        self.testing = Item()
         self.items = ItemList()
         self.status_text = "Choose action from the left menu, then select items on the right"
 
@@ -49,7 +47,7 @@ class ItemsGUI(App):
         :return:
         """
         for item in self.items.items:
-            temp_button = Button(text=item[0])
+            temp_button = Button(text=item.name)
             temp_button.bind(on_release=self.press_entry)
             self.root.ids.itemsBox.add_widget(temp_button)
 
@@ -62,8 +60,14 @@ class ItemsGUI(App):
         item_name = instance.text
         self.status_text = item_name
 
-        # self.status_text = "{} ({}) = $ {}{}".format(item_name, self.items.items[1], self.items.items[2],
-        #                                              self.items.items[3])
+        for item in self.items.items:
+            if item.name == item_name:
+                selected_item = item
+        self.status_text = "{} ({}) = ${:.2f}, {}".format(selected_item.name, selected_item.description,
+                                                          selected_item.cost,selected_item.in_or_out)
+
+    # def handle_list_items(self, instance):
+    #
 
     def handle_add_item(self):
         """
