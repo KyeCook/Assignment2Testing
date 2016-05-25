@@ -14,6 +14,12 @@ from kivy.uix.button import Button
 from kivy.properties import StringProperty
 from itemlist import ItemList
 
+LIST_MODE = 0
+HIRE_MODE = 1
+RETURN_MODE = 2
+CONFIRM_MODE = 3
+ADD_ITEM_MODE = 4
+
 
 class ItemsGUI(App):
 
@@ -28,6 +34,8 @@ class ItemsGUI(App):
         """
         super(ItemsGUI, self).__init__(**kwargs)
         self.items = ItemList()
+        self.mode = LIST_MODE
+        self.selected_items = []
         self.status_text = "Choose action from the left menu, then select items on the right"
 
     def build(self):
@@ -58,16 +66,50 @@ class ItemsGUI(App):
         :return:
         """
         item_name = instance.text
-        self.status_text = item_name
 
+        selected_item = None
+
+        # TODO change to method of itemlist getitem(name)
         for item in self.items.items:
             if item.name == item_name:
                 selected_item = item
-        self.status_text = "{} ({}) = ${:.2f}, {}".format(selected_item.name, selected_item.description,
-                                                          selected_item.cost,selected_item.in_or_out)
 
-    # def handle_list_items(self, instance):
-    #
+        if self.mode == LIST_MODE:
+            self.status_text = "{} ({}) = ${:.2f} is {}".format(selected_item.name, selected_item.description,
+                                                                selected_item.cost, selected_item.in_or_out)
+
+        if self.mode == HIRE_MODE:
+            if selected_item.in_or_out == "in":
+                if selected_item not in self.selected_items:
+                    self.selected_items.append(selected_item)
+
+                    names = []
+                    total = 0
+                    for item in self.selected_items:
+                        total += item.cost
+                        names.append(item.name)
+
+                    # self.root.ids.list_items_btn.state = "down"
+                    # print(total)
+                    name_str = ",".join(names)
+                    self.status_text = "Hiring : {} for ${:.2f}".format(name_str, total)
+                else:
+                    self.selected_items.remove(selected_item)
+            # print(self.mode, self.status_text)
+
+    def handle_list_items(self):
+        self.mode = LIST_MODE
+        self.root.ids.list_items_btn.state = "down"
+        self.root.ids.hire_items_btn.state = "normal"
+        self.root.ids.return_items_btn.state = "normal"
+        self.root.ids.confirm_btn.state = "normal"
+        self.root.ids.add_item_btn.state = "normal"
+
+    def handle_hire_item(self):
+        self.mode = HIRE_MODE
+        self.root.ids.list_items_btn.state = "normal"
+        self.root.ids.hire_items_btn.state = "down"
+        self.root.ids.return_items_btn.state = "normal"
 
     def handle_add_item(self):
         """
