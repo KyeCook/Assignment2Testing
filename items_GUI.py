@@ -232,14 +232,27 @@ class ItemsGUI(App):
         added_description = self.root.ids.added_description.text
         added_price = self.root.ids.added_price.text
 
-        # Adds information found within kv file to function within itemlist
-        self.items.add_item_from_values(added_name, added_description, added_price)
-        temp_button = Button(text=added_name)
-        temp_button.bind(on_release=self.press_entry)
-        self.root.ids.itemsBox.add_widget(temp_button)
-        # closes popup
-        self.root.ids.popup.dismiss()
-        self.clear_fields()
+        # Adds in error checking --> Try statement checks if numeric value is entered into item cost
+        try:
+            # Further error checking --> While checks values aren't NULL and that item cost > 0
+            # N.B attempted to add price > $0 into own error checking loop but repeatedly crashed GUI so left as is
+            while added_name != "" and added_description != "" and float(added_price) > 0:
+                # Adds information found within kv file to function within itemlist
+                self.items.add_item_from_values(added_name, added_description, added_price)
+                temp_button = Button(text=added_name)
+                temp_button.bind(on_release=self.press_entry)
+                self.root.ids.itemsBox.add_widget(temp_button)
+                # closes popup
+                self.root.ids.popup.dismiss()
+                self.clear_fields()
+
+            # Updates the popups status text with error message, also changes colour to red to let show that it is error
+            self.root.ids.popup_status_text.text = "ITEM INPUT CAN NOT BE NULL AND ITEM COST MUST BE > $0"
+            self.root.ids.popup_status_text.color = (1.0, 0.0, 0.0, 1.0)
+
+        except ValueError:
+            self.root.ids.popup_status_text.text = "ITEM COST MUST BE NUMERIC"
+            self.root.ids.popup_status_text.color = (1.0, 0.0, 0.0, 1.0)
 
     def clear_fields(self):
         """
