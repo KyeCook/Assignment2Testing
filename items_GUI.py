@@ -83,7 +83,14 @@ class ItemsGUI(App):
             self.status_text = "{} ({}) = ${:.2f} is {}".format(item.name, item.description, item.cost, item.in_or_out)
 
         elif self.mode == HIRE_MODE:
-            if item.in_or_out == "in":
+            self.hire_mode_functionality(item, instance)
+
+        elif self.mode == RETURN_MODE:
+            self.return_mode_functionality(item, instance)
+
+    def hire_mode_functionality(self, item, instance):
+
+        if item.in_or_out == "in":
                 if item not in self.selected_items:
                     self.selected_items.append(item)
                     instance.state = "down"
@@ -105,8 +112,8 @@ class ItemsGUI(App):
                 else:
                     self.status_text = "Hiring : {} for ${:.2f}".format(name_str, total_cost)
 
-        elif self.mode == RETURN_MODE:
-            if item.in_or_out == "out":
+    def return_mode_functionality(self, item, instance):
+        if item.in_or_out == "out":
                 if item not in self.selected_items:
                     self.selected_items.append(item)
                     instance.state = "down"
@@ -177,14 +184,15 @@ class ItemsGUI(App):
         self.root.ids.popup.open()
 
     def handle_save_item(self):
+        """
+        Function allows for added items to be appended to the already constructed items list.
+        :return:
+        """
         added_name = self.root.ids.added_name.text
         added_description = self.root.ids.added_description.text
         added_price = self.root.ids.added_price.text
 
         self.items.add_item_from_values(added_name, added_description, added_price)
-        # # change the number of columns based on the number of entries (no more than 5 rows of entries)
-        # self.root.ids.entriesBox.cols = len(self.items.items) // 5 + 1
-        # # add button for new entry (same as in create_entry_buttons())
         temp_button = Button(text=added_name)
         temp_button.bind(on_release=self.press_entry)
         self.root.ids.itemsBox.add_widget(temp_button)
@@ -210,12 +218,13 @@ class ItemsGUI(App):
         self.root.ids.popup.dismiss()
         self.clear_fields()
 
-    # def on_stop(self):
-    #     items_to_save = self.items.get_items_for_saving()
-    #     update_csv(items_to_save)
-
     def on_stop(self):
+        """
+        This function uses kivy method to activate upon closing of GUI. Actual function will return and export to csv
+        :return:
+        """
         items_to_save = self.items.get_items_for_saving()
 
         update_csv(items_to_save)
+
 ItemsGUI().run()

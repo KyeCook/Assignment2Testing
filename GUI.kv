@@ -83,18 +83,13 @@ BoxLayout:
                 on_release: app.handle_add_item()
 
         BoxLayout:
+            # Layout for dynamically created buttons
             orientation: 'horizontal'
             orientation: 'vertical'
             id: itemsBox
 
-        # TODO GridLayout is not working correctly -> creates error in code
-#        GridLayout:
-#                # this layout is populated with (button) widgets in app code
-#                id: entriesBox
-#                cols: 1
-#                orientation: 'vertical'
-
     Label:
+        # Dynamically changing status text dependant upon buttons clicked
         id: statusLabel
         size_hint_y: 0.1
         text: app.status_text
