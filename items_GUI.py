@@ -214,5 +214,9 @@ class ItemsGUI(App):
     #     items_to_save = self.items.get_items_for_saving()
     #     update_csv(items_to_save)
 
-
-ItemsGUI().run()
+    # could break
+#     def on_stop(self):
+#         items_to_save = self.items.get_items_for_saving()
+#
+#         update_csv(items_to_save)
+# ItemsGUI().run()
