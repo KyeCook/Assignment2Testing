@@ -17,8 +17,6 @@ from itemlist import ItemList
 LIST_MODE = 0
 HIRE_MODE = 1
 RETURN_MODE = 2
-CONFIRM_MODE = 3
-ADD_ITEM_MODE = 4
 
 
 class ItemsGUI(App):
@@ -58,6 +56,8 @@ class ItemsGUI(App):
             temp_button = Button(text=item.name)
             temp_button.bind(on_release=self.press_entry)
             self.root.ids.itemsBox.add_widget(temp_button)
+            if item.in_or_out == "out":
+                temp_button.background_color = (1.0, 0.0, 0.0, 1.0)
 
     def press_entry(self, instance):
         """
@@ -71,36 +71,77 @@ class ItemsGUI(App):
         if self.mode == LIST_MODE:
             self.status_text = "{} ({}) = ${:.2f} is {}".format(item.name, item.description, item.cost, item.in_or_out)
 
-        if self.mode == HIRE_MODE:
+        elif self.mode == HIRE_MODE:
             if item.in_or_out == "in":
                 if item not in self.selected_items:
-                    self.root.ids.itemsBox.state = "down"
                     self.selected_items.append(item)
+                    instance.state = "down"
 
                     names = []
-                    total = 0
+                    total_cost = 0
+
                     for item in self.selected_items:
-                        total += item.cost
+                        total_cost += item.cost
                         names.append(item.name)
 
                     name_str = ",".join(names)
-                    self.status_text = "Hiring : {} for ${:.2f}".format(name_str, total)
+                    self.status_text = "Hiring : {} for ${:.2f}".format(name_str, total_cost)
                 else:
                     self.selected_items.remove(item)
+                    instance.state = "normal"
+
+        elif self.mode == RETURN_MODE:
+            if item.in_or_out == "out":
+                if item not in self.selected_items:
+                    self.selected_items.append(item)
+                    instance.state = "down"
+
+                    names = []
+                    for item in self.selected_items:
+                        names.append(item.name)
+
+                    name_str = ",".join(names)
+                    self.status_text = "Returning : {}".format(name_str)
+                else:
+                    self.selected_items.remove(item)
+                    instance.state = "normal"
+
 
     def handle_list_items(self):
+        self.selected_items = []
+        self.status_text = "Choose action from the left menu, then select items on the right"
         self.mode = LIST_MODE
         self.root.ids.list_items_btn.state = "down"
         self.root.ids.hire_items_btn.state = "normal"
         self.root.ids.return_items_btn.state = "normal"
-        self.root.ids.confirm_btn.state = "normal"
-        self.root.ids.add_item_btn.state = "normal"
 
     def handle_hire_item(self):
+        self.selected_items = []
+        self.status_text = "Select available items to hire"
         self.mode = HIRE_MODE
         self.root.ids.list_items_btn.state = "normal"
         self.root.ids.hire_items_btn.state = "down"
         self.root.ids.return_items_btn.state = "normal"
+
+    def handle_return_item(self):
+        self.selected_items = []
+        self.status_text = "Select available items to return"
+        self.mode = RETURN_MODE
+        self.root.ids.list_items_btn.state = "normal"
+        self.root.ids.hire_items_btn.state = "normal"
+        self.root.ids.return_items_btn.state = "down"
+
+    def handle_confirm(self):
+        self.root.ids.list_items_btn.state = "normal"
+        self.root.ids.hire_items_btn.state = "normal"
+        self.root.ids.return_items_btn.state = "normal"
+
+        for item in self.selected_items:
+            if self.mode == HIRE_MODE:
+                item.in_or_out = "out"
+            elif self.mode == RETURN_MODE:
+                item.in_or_out = "in"
+        self.mode = LIST_MODE
 
     def handle_add_item(self):
         """
@@ -109,21 +150,19 @@ class ItemsGUI(App):
         """
         self.root.ids.popup.open()
 
-    def handle_save_item(self, added_name, added_description, added_price):
-        """
-        Handler for pressing the save button in the add entry popup - save a new entry to memory
-        :param added_name: name text input (from popup GUI)
-        :param added_number: phone number text input (string)
-        :return: None
-        """
+    def handle_save_item(self):
+        added_name = self.root.ids.added_name.text
+        added_description = self.root.ids.added_description.text
+        added_price = self.root.ids.added_price.text
+
         self.items.add_item_from_values(added_name, added_description, added_price)
-        # change the number of columns based on the number of entries (no more than 5 rows of entries)
-        self.root.ids.entriesBox.cols = len(self.items.items) // 5 + 1
-        # add button for new entry (same as in create_entry_buttons())
+        # # change the number of columns based on the number of entries (no more than 5 rows of entries)
+        # self.root.ids.entriesBox.cols = len(self.items.items) // 5 + 1
+        # # add button for new entry (same as in create_entry_buttons())
         temp_button = Button(text=added_name)
         temp_button.bind(on_release=self.press_entry)
-        self.root.ids.entriesBox.add_widget(temp_button)
-        # close popup
+        self.root.ids.itemsBox.add_widget(temp_button)
+        # closes popup
         self.root.ids.popup.dismiss()
         self.clear_fields()
 
