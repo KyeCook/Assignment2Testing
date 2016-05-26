@@ -238,11 +238,15 @@ def add_items(item_id, item_names, item_descriptions, item_costs, item_availabil
 
 
 def update_csv(items):
-    # Needs to re-open file in new write format
-    f = open(FILE_NAME, 'w')
-    count = -1
-    # Merges items into original list format style to be saved to the CSV file
-    for item in items:
-        f.write(','.join(str(part) for part in items) + '\n')
-    f.close()
+    # # Needs to re-open file in new write format
+    # f = open(FILE_NAME, 'w')
+    # for item in items:
+    #     f.write(','.join(str(part) for part in items) + '\n')
+    # f.close()
+
+    with open (FILE_NAME, "w", newline='') as output:
+        writer = csv.writer(output)
+        writer.writerows(items)
+
+    output.close()
 # main()

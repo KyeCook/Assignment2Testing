@@ -13,6 +13,7 @@ from kivy.lang import Builder
 from kivy.uix.button import Button
 from kivy.properties import StringProperty
 from itemlist import ItemList
+from Assign1 import update_csv
 
 LIST_MODE = 0
 HIRE_MODE = 1
@@ -59,6 +60,16 @@ class ItemsGUI(App):
             if item.in_or_out == "out":
                 temp_button.background_color = (1.0, 0.0, 0.0, 1.0)
 
+    def update_buttons(self):
+        for instance in self.root.ids.itemsBox.children:
+            instance.state = 'normal'
+            item_name = instance.text
+            item = self.items.get_item(item_name)
+            if item.in_or_out == "out":
+                instance.background_color = (1.0, 0.0, 0.0, 1.0)
+            else:
+                instance.background_color = (1.0, 1.0, 1.0, 1.0)
+
     def press_entry(self, instance):
         """
         This class function changes the text notification within the bottom status label
@@ -77,18 +88,22 @@ class ItemsGUI(App):
                     self.selected_items.append(item)
                     instance.state = "down"
 
-                    names = []
-                    total_cost = 0
-
-                    for item in self.selected_items:
-                        total_cost += item.cost
-                        names.append(item.name)
-
-                    name_str = ",".join(names)
-                    self.status_text = "Hiring : {} for ${:.2f}".format(name_str, total_cost)
                 else:
                     self.selected_items.remove(item)
                     instance.state = "normal"
+
+                names = []
+                total_cost = 0
+
+                for item in self.selected_items:
+                    total_cost += item.cost
+                    names.append(item.name)
+
+                name_str = ",".join(names)
+                if name_str == '':
+                    self.status_text = "Hiring : Nothing"
+                else:
+                    self.status_text = "Hiring : {} for ${:.2f}".format(name_str, total_cost)
 
         elif self.mode == RETURN_MODE:
             if item.in_or_out == "out":
@@ -96,16 +111,19 @@ class ItemsGUI(App):
                     self.selected_items.append(item)
                     instance.state = "down"
 
-                    names = []
-                    for item in self.selected_items:
-                        names.append(item.name)
-
-                    name_str = ",".join(names)
-                    self.status_text = "Returning : {}".format(name_str)
                 else:
                     self.selected_items.remove(item)
                     instance.state = "normal"
 
+                names = []
+                for item in self.selected_items:
+                    names.append(item.name)
+
+                name_str = ",".join(names)
+                if name_str == '':
+                    self.status_text = "Returning : Nothing"
+                else:
+                    self.status_text = "Returning : {}".format(name_str)
 
     def handle_list_items(self):
         self.selected_items = []
@@ -115,6 +133,8 @@ class ItemsGUI(App):
         self.root.ids.hire_items_btn.state = "normal"
         self.root.ids.return_items_btn.state = "normal"
 
+        self.update_buttons()
+
     def handle_hire_item(self):
         self.selected_items = []
         self.status_text = "Select available items to hire"
@@ -123,6 +143,8 @@ class ItemsGUI(App):
         self.root.ids.hire_items_btn.state = "down"
         self.root.ids.return_items_btn.state = "normal"
 
+        self.update_buttons()
+
     def handle_return_item(self):
         self.selected_items = []
         self.status_text = "Select available items to return"
@@ -130,6 +152,8 @@ class ItemsGUI(App):
         self.root.ids.list_items_btn.state = "normal"
         self.root.ids.hire_items_btn.state = "normal"
         self.root.ids.return_items_btn.state = "down"
+
+        self.update_buttons()
 
     def handle_confirm(self):
         self.root.ids.list_items_btn.state = "normal"
@@ -142,6 +166,8 @@ class ItemsGUI(App):
             elif self.mode == RETURN_MODE:
                 item.in_or_out = "in"
         self.mode = LIST_MODE
+
+        self.update_buttons()
 
     def handle_add_item(self):
         """
@@ -183,6 +209,10 @@ class ItemsGUI(App):
         # closes the popup window
         self.root.ids.popup.dismiss()
         self.clear_fields()
+
+    # def on_stop(self):
+    #     items_to_save = self.items.get_items_for_saving()
+    #     update_csv(items_to_save)
 
 
 ItemsGUI().run()

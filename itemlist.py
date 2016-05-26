@@ -19,3 +19,12 @@ class ItemList:
         for item in self.items:
             if item.name == name:
                 return item
+
+    def get_items_for_saving(self):
+
+        items_to_save = []
+
+        for item in self.items:
+            f = (item.name, item.description, item.cost, item.in_or_out)
+            items_to_save.append(f)
+        return items_to_save
