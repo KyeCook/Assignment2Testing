@@ -57,10 +57,16 @@ class ItemsGUI(App):
             temp_button = Button(text=item.name)
             temp_button.bind(on_release=self.press_entry)
             self.root.ids.itemsBox.add_widget(temp_button)
+            # The below statement changes the buttons colour to red if the items availability is 'out'
             if item.in_or_out == "out":
                 temp_button.background_color = (1.0, 0.0, 0.0, 1.0)
 
     def update_buttons(self):
+        """
+        This function runs upon the selection of a menu button to both reset the state of the buttons and also to update
+        the colours depending upon changes made.
+        :return:
+        """
         for instance in self.root.ids.itemsBox.children:
             instance.state = 'normal'
             item_name = instance.text
@@ -89,7 +95,13 @@ class ItemsGUI(App):
             self.return_mode_functionality(item, instance)
 
     def hire_mode_functionality(self, item, instance):
-
+        """
+        Code within this function is segregated into separate function from where it is used to increase readability and
+        actually performs the workings of HIRE_MODE
+        :param item:
+        :param instance:
+        :return:
+        """
         if item.in_or_out == "in":
                 if item not in self.selected_items:
                     self.selected_items.append(item)
@@ -113,6 +125,13 @@ class ItemsGUI(App):
                     self.status_text = "Hiring : {} for ${:.2f}".format(name_str, total_cost)
 
     def return_mode_functionality(self, item, instance):
+        """
+        Code within this function is segregated into separate function from where it is used to increase readability and
+        actually performs the workings RETURN_MODE
+        :param item:
+        :param instance:
+        :return:
+        """
         if item.in_or_out == "out":
                 if item not in self.selected_items:
                     self.selected_items.append(item)
@@ -133,6 +152,11 @@ class ItemsGUI(App):
                     self.status_text = "Returning : {}".format(name_str)
 
     def handle_list_items(self):
+        """
+        This function occurs when the 'list items' button is selected and changes button states, status texts and sets
+        the mode. The list constructed for the selected items is also reset.
+        :return:
+        """
         self.selected_items = []
         self.status_text = "Choose action from the left menu, then select items on the right"
         self.mode = LIST_MODE
@@ -143,6 +167,11 @@ class ItemsGUI(App):
         self.update_buttons()
 
     def handle_hire_item(self):
+        """
+        This function occurs when the 'hire items' button is selected and changes button states, status texts and sets
+        the mode. The list constructed for the selected items is also reset.
+        :return:
+        """
         self.selected_items = []
         self.status_text = "Select available items to hire"
         self.mode = HIRE_MODE
@@ -153,6 +182,11 @@ class ItemsGUI(App):
         self.update_buttons()
 
     def handle_return_item(self):
+        """
+        This function occurs when the 'return items' button is selected and changes button states, status texts and sets
+        the mode. The list constructed for the selected items is also reset.
+        :return:
+        """
         self.selected_items = []
         self.status_text = "Select available items to return"
         self.mode = RETURN_MODE
@@ -163,6 +197,11 @@ class ItemsGUI(App):
         self.update_buttons()
 
     def handle_confirm(self):
+        """
+        This function runs when the 'confirm' button is selected and changes items and button states according to
+        current mode the user is in (HIRE_MODE or RETURN_MODE). The mode is then reset back to the default LIST_MODE
+        :return:
+        """
         self.root.ids.list_items_btn.state = "normal"
         self.root.ids.hire_items_btn.state = "normal"
         self.root.ids.return_items_btn.state = "normal"
@@ -188,10 +227,12 @@ class ItemsGUI(App):
         Function allows for added items to be appended to the already constructed items list.
         :return:
         """
+        # Gets item information from kv file
         added_name = self.root.ids.added_name.text
         added_description = self.root.ids.added_description.text
         added_price = self.root.ids.added_price.text
 
+        # Adds information found within kv file to function within itemlist
         self.items.add_item_from_values(added_name, added_description, added_price)
         temp_button = Button(text=added_name)
         temp_button.bind(on_release=self.press_entry)
@@ -225,6 +266,7 @@ class ItemsGUI(App):
         """
         items_to_save = self.items.get_items_for_saving()
 
+        # calls previous assignments csv updating function
         update_csv(items_to_save)
 
 ItemsGUI().run()
